@@ -2,7 +2,7 @@
 
 ## Tool: **Kaboom.js**
 
-## Project: **Platform game with gambling mechanics **
+## Project: **Platform game with gambling mechanics**
 
 ---
 
