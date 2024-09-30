@@ -1,13 +1,13 @@
 # Tool Learning Log
 
-## Tool: **X**
+## Tool: **Kaboom.js**
 
-## Project: **X**
+## Project: **Platform game with gambling mechanics **
 
 ---
 
-### X/X/XX:
-* Text
+### 9/30/X24:
+* I choose to do a platform game using the kaboom.js tool.
 
 ### X/X/XX:
 * Text
