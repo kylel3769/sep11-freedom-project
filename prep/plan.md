@@ -1,7 +1,7 @@
 # Plan
 
-## Tool: 
-## Product: 
+## Tool: kaboom.js
+## Product: 2d platformer game that includes randomised obstacles
 
 ---
 
