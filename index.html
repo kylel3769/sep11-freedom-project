@@ -41,8 +41,8 @@
             loadSprite("sadRat2", "img/sprites/rat_lost2.png")
             loadSprite("spike", "img/sprites/spike.png")
             loadSprite("grass", "img/sprites/grass.png")
-            loadSprite("portal", "img/sprites/prize.png")
-            loadSprite("coin", "img/sprites/chez.png")
+            loadSprite("boss", "img/sprites/prize.png")
+            loadSprite("portal", "img/sprites/chez.png")
 
 
             setGravity(1600)
@@ -51,11 +51,11 @@
 
             const levels = [
                 [
-                    "@  ^ $$ >",
+                    "@  ^    >",
                     "=========",
                 ],
                 [
-                    "@   $   >",
+                    "@       >",
                     "=   =   =",
                 ],
             ]
@@ -90,11 +90,11 @@
                         anchor("bot"),
                         "grass",
                     ],
-                    "$": () => [
-                        sprite("coin"),
+                    "#": () => [
+                        sprite("boss"),
                         area({ width: 10, height: 10 }),
                         anchor("bot"),
-                        "coin",
+                        "boss",
                     ],
                     "^": () => [
                         sprite("spike"),
@@ -187,7 +187,7 @@
 
             add([
                 text("You Lose",),
-                pos(width() / 2 - 100, height() / 2 - 20),a
+                pos(width() / 2 - 100, height() / 2 - 20),
             ])
 
             // Press any key to go back
