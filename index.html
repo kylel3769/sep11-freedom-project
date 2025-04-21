@@ -40,6 +40,7 @@
             loadSprite("spike", "img/sprites/spike.png")
             loadSprite("grass", "img/sprites/grass.png")
             loadSprite("roc", "img/sprites/hard_grass.png")
+            loadSprite("sand", "img/sprites/hardest_grass.png")
             loadSprite("boss", "img/sprites/prize.png")
             loadSprite("portal", "img/sprites/chez.png")
 
@@ -50,32 +51,43 @@
 
             const levels = [
 
+                // hardest lvl
+                [
+                    "                         ^",
+                    "                 ^       ^",
+                    "          ^      ^       ^",
+                    ". @   ^   ^      ^       >",
+                    ". . ^^^^^^^^^^^^^^^^^^    ",
+                    ".                     ^   ",
+                    "......................    ",
+                ],
+
                 // way harder lvls
                 [
-                    "@                      >",
-                    "=      ^       ^        ",
+                    "@                       >",
+                    "``      ^       ^        ",
                 ],
                 [
-                    "````````````````````",
-                    "`@                 >",
-                    "``  `  `  `  `  `  `",
+                    "`````````````````````",
+                    "`@                  >",
+                    "```  `  `  `  `  `  `",
                 ],
                 [
-                    "````````````````````",
-                    "`@                 >",
+                    "`````````````````````",
+                    "`@                  >",
+                    "```  ^  ^  ^  ^  ^  `",
+                ],
+                [
+                    "                   `",
+                    "                   `",
+                    "                   `",
+                    "@                  >",
                     "``  ^  ^  ^  ^  ^  `",
                 ],
                 [
-                    "                  `",
-                    "                  `",
-                    "                  `",
-                    "@                 >",
-                    "`  ^  ^  ^  ^  ^  `",
-                ],
-                [
-                    "             `    ^",
-                    "@     `           >",
-                    "`                  ",
+                    "              `    `",
+                    "@      `           >",
+                    "^^                 ^",
                 ],
                 [
                     "                  `",
@@ -83,11 +95,11 @@
                     "`  ^  ^  ^  ^  ^  `",
                 ],
                 [
-                    "    ^         ^         ",
-                    "    ^         ^         ",
-                    "    ^         ^         ",
-                    "@      ^         ^     >",
-                    "^```````````````````````",
+                    "       ^         ^         ",
+                    "       ^         ^         ",
+                    "       ^         ^         ",
+                    "@         ^         ^     >",
+                    "^``````````````````````````",
                 ],
 
                 // norm lvl
@@ -150,6 +162,15 @@
                     "        =",
                     "@        ",
                     "=========",
+                ],[
+                    "=   @   =",
+                    "=       =",
+                    "=       =",
+                    "=       =",
+                    "=       =",
+                    "=       =",
+                    ">       >",
+                    "^^^^^^^^^",
                 ],
 
             ]
@@ -197,6 +218,14 @@
                         anchor("bot"),
                         scale(1),
                         "player",
+                    ],
+                    ".": () => [
+                        sprite("sand"),
+                        area(),
+                        scale(1),
+                        body({ isStatic: true }),
+                        anchor("bot"),
+                        "sand",
                     ],
                     "`": () => [
                         sprite("roc"),
@@ -290,12 +319,12 @@
 
                     if (hard < 75) {
                         hardLvls = false
-                        const randLvlId = Math.floor(Math.random()*(levels.length-6)+6)
+                        const randLvlId = Math.floor(Math.random()*(levels.length-7)+7)
                         go("game", { levelIdx: randLvlId, score: score })
                     } else {
                         console.log("hard lvl")
                         hardLvls = true
-                        const randLvlId = Math.floor(Math.random()*6)
+                        const randLvlId = Math.floor(Math.random()*7)
                         go("game", { levelIdx: randLvlId, score: score })
                     }
 
@@ -365,7 +394,7 @@
                 ])
 
                 go("game", {
-                    levelIdx: Math.floor(Math.random()*levels.length),
+                    levelIdx: 12,
                     score: 0,
                     showInstructions: true,
                 })
