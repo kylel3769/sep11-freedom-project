@@ -84,6 +84,8 @@
                 ],
                 [
                     "    ^         ^         ",
+                    "    ^         ^         ",
+                    "    ^         ^         ",
                     "@      ^         ^     >",
                     "^```````````````````````",
                 ],
@@ -154,7 +156,27 @@
 
 
 
-            scene("game", ({ levelIdx, score }) => {
+            scene("game", ({ levelIdx, score, showInstructions}) => {
+
+                let instructionLabel
+                if (showInstructions) {
+                    instructionLabel = add([
+                        text("A/D to strafe\nW to jump\navoid cats\nget the chez\nred grass lvls are harder lvls", {
+                            size: 12,
+                            lineSpacing: 6,
+                        }),
+                        pos(0, 0),
+                        anchor("botleft"),
+                        z(100),
+                        "instructions",
+                    ])
+                    onKeyPress(["a", "d", "w"], () => {
+                        destroy(instructionLabel)
+                    })
+                    instructionLabel.onUpdate(() => {
+                        instructionLabel.pos = player.pos.add(50, 100)
+                    })
+                }
 
                 camScale(2);
 
@@ -259,7 +281,12 @@
 
                 player.onCollide("portal", () => {
                     let hard = Math.random()*100
-                    score += 1;
+                    if(hardLvls = false){
+                        score += 1;
+                    } else{
+                        score += 3;
+                    }
+
 
                     if (hard < 75) {
                         hardLvls = false
@@ -325,9 +352,21 @@
             })
             // debug.inspect = true
             function start() {
+                const instructions = add([
+                    text("Rat Game Thing\n\nA/D to strafe\nW to jump\nAvoid Cats\nReach the Chez", {
+                        size: 24,
+                        lineSpacing: 10,
+                    }),
+                    pos(center()),
+                    anchor("center"),
+                    z(100), // Make sure it’s on top
+                    "instructions"
+                ])
+
                 go("game", {
                     levelIdx: Math.floor(Math.random()*levels.length),
                     score: 0,
+                    showInstructions: true,
                 })
             }
 
