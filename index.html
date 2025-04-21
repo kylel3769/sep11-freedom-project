@@ -33,14 +33,13 @@
             });
             let camTarget = vec2(100, 200)
 
-
-            // load assets
             loadSprite("rat", "img/sprites/rat.png")
             loadSprite("rat2", "img/sprites/rat2.png")
             loadSprite("sadRat", "img/sprites/rat_lost.png")
             loadSprite("sadRat2", "img/sprites/rat_lost2.png")
             loadSprite("spike", "img/sprites/spike.png")
             loadSprite("grass", "img/sprites/grass.png")
+            loadSprite("roc", "img/sprites/hard_grass.png")
             loadSprite("boss", "img/sprites/prize.png")
             loadSprite("portal", "img/sprites/chez.png")
 
@@ -50,14 +49,107 @@
             const speed = 500
 
             const levels = [
+
+                // way harder lvls
                 [
-                    "@  ^    >",
-                    "=========",
+                    "@                      >",
+                    "=      ^       ^        ",
+                ],
+                [
+                    "````````````````````",
+                    "`@                 >",
+                    "``  `  `  `  `  `  `",
+                ],
+                [
+                    "````````````````````",
+                    "`@                 >",
+                    "``  ^  ^  ^  ^  ^  `",
+                ],
+                [
+                    "                  `",
+                    "                  `",
+                    "                  `",
+                    "@                 >",
+                    "`  ^  ^  ^  ^  ^  `",
+                ],
+                [
+                    "             `    ^",
+                    "@     `           >",
+                    "`                  ",
+                ],
+                [
+                    "                  `",
+                    "@                 >",
+                    "`  ^  ^  ^  ^  ^  `",
+                ],
+                [
+                    "    ^         ^         ",
+                    "@      ^         ^     >",
+                    "^```````````````````````",
+                ],
+
+                // norm lvl
+                [
+                    "====",
+                    "=@ =",
+                    "== =",
+                    " = =",
+                    " = =",
+                    " = =",
+                    " =>=",
+                ],
+                [
+                    "@            >",
+                    "=========    =",
                 ],
                 [
                     "@       >",
                     "=   =   =",
                 ],
+                [
+                    "=               ",
+                    "=               ",
+                    "=@             >",
+                    "==      ^      =",
+                ],
+                [
+                    "=========",
+                    "@      >=",
+                    "=========",
+                ],
+
+                [
+                    "@                      >",
+                    "========================",
+                ],
+                [
+                    "    ^         ^         ",
+                    "@      ^         ^     >",
+                    "========================",
+                ],
+                [
+                    "@                    ^ >",
+                    "========================",
+                ],
+                [
+                    "@     ^  ^   ^ ^  ^  ^ >",
+                    "========================",
+                ],
+                [
+                    ">       @",
+                    "=========",
+                ],
+                [
+                    "              >",
+                    "         ",
+                    "        =",
+                    "         ",
+                    "    =    ",
+                    "        =",
+                    "@        ",
+                    "=========",
+                ],
+
             ]
 
 
@@ -68,6 +160,8 @@
 
                 let lives = 2
                 let hitCooldown = false
+                let hardLvls = false
+
 
                 const level = addLevel(levels[levelIdx || 0], {
                 tileWidth: 64,
@@ -82,6 +176,14 @@
                         scale(1),
                         "player",
                     ],
+                    "`": () => [
+                        sprite("roc"),
+                        area(),
+                        scale(1),
+                        body({ isStatic: true }),
+                        anchor("bot"),
+                        "roc",
+                    ],
                     "=": () => [
                         sprite("grass"),
                         area(),
@@ -90,7 +192,7 @@
                         anchor("bot"),
                         "grass",
                     ],
-                    "#": () => [
+                    "~": () => [
                         sprite("boss"),
                         area({ width: 10, height: 10 }),
                         anchor("bot"),
@@ -124,7 +226,7 @@
 
                 let hoverT = 1
                 portal.onUpdate(() => {
-                    portal.move(0, Math.tan(time() * 2) * 20)
+                    portal.move(0, Math.sin(time() * 2) * 10)
                 })
 
                 player.onCollide("danger", () => {
@@ -147,6 +249,21 @@
                         collision.preventResolution()
                     }
                 })
+
+                player.onCollide("portal", () => {
+                    let hard = Math.random()*100
+                    if (hard < 75) {
+                        hardLvls = false
+                        const randLvlId = Math.floor(Math.random()*(levels.length-6)+6)
+                        go("game", { levelIdx: randLvlId, score: score })
+                    } else {
+                        console.log("hard lvl")
+                        hardLvls = true
+                        const randLvlId = Math.floor(Math.random()*6)
+                        go("game", { levelIdx: randLvlId, score: score })
+                    }
+
+                });
 
                 onKeyDown("a", () => {
                     player.move(-speed, 0)
@@ -183,11 +300,14 @@
                 })
             })
 
+
             scene("lose", () => {
 
             add([
                 text("You Lose",),
                 pos(width() / 2 - 100, height() / 2 - 20),
+                anchor("center"),
+
             ])
 
             // Press any key to go back
@@ -196,9 +316,8 @@
             })
             debug.inspect = true
             function start() {
-                // Start with the "game" scene, with initial parameters
                 go("game", {
-                    levelIdx: 0,
+                    levelIdx: Math.floor(Math.random()*levels.length),
                     score: 0,
                 })
             }
