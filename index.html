@@ -221,6 +221,13 @@
             }
 
 
+                const scoreLabel = add([
+                    text("Score: " + score),
+                    pos(24, 24),
+                    fixed(), // Keeps it fixed on the screen
+                    { value: score },
+                ]);
+
                 const player = level.get("player")[0]
                 const portal = level.get("portal")[0]
 
@@ -239,7 +246,7 @@
                                 hitCooldown = false
                             })
                         } else if (lives <= 1) {
-                            go("lose")
+                            go("lose", { score: score })
                         }
                     }
                 })
@@ -252,6 +259,8 @@
 
                 player.onCollide("portal", () => {
                     let hard = Math.random()*100
+                    score += 1;
+
                     if (hard < 75) {
                         hardLvls = false
                         const randLvlId = Math.floor(Math.random()*(levels.length-6)+6)
@@ -295,16 +304,16 @@
 
 
                     if (player.pos.y >= 480) {
-                    go("lose")
+                        go("lose", { score: score })
                     }
                 })
             })
 
 
-            scene("lose", () => {
+            scene("lose", ({ score }) => {
 
             add([
-                text("You Lose",),
+                text("You Lost With A Score of " + score,),
                 pos(width() / 2 - 100, height() / 2 - 20),
                 anchor("center"),
 
