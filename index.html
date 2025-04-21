@@ -321,6 +321,7 @@
                 })
 
                 onKeyDown("w", jump)
+                onKeyDown("space", jump)
 
                 // onKeyDown("down", () => {
                 //     player.move(0, speed)
@@ -353,7 +354,7 @@
             // debug.inspect = true
             function start() {
                 const instructions = add([
-                    text("Rat Game Thing\n\nA/D to strafe\nW to jump\nAvoid Cats\nReach the Chez", {
+                    text("Rat Game Thing\n\nYou are invincible for 2 seconds after getting hit\nA/D to strafe\nW to jump\nAvoid Cats\nReach the Chez", {
                         size: 24,
                         lineSpacing: 10,
                     }),
