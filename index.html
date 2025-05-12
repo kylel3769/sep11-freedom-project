@@ -43,9 +43,13 @@
             loadSprite("sand", "img/sprites/hardest_grass.png")
             loadSprite("boss", "img/sprites/prize.png")
             loadSprite("portal", "img/sprites/chez.png")
+            loadSprite("arrow", "img/sprites/arrow.png")
+            loadSprite("iRat", "img/sprites/i_frames.png")
+            loadSprite("iRat2", "img/sprites/i_frames2.png")
 
 
             setGravity(1600)
+
 
             const speed = 500
 
@@ -53,46 +57,49 @@
 
                 // hardest lvl
                 [
-                    "                         ^",
-                    "                 ^       ^",
-                    "          ^      ^       ^",
-                    ". @   ^   ^      ^       >",
+                    "                 $    $  ^",
+                    "          $           $  ^",
+                    "                 ^    $  ^",
+                    " $        ^      ^       ^",
+                    ". @   ^   ^      ^      }>",
                     ". . ^^^^^^^^^^^^^^^^^^    ",
-                    ".                     ^   ",
+                    ".         }           ^   ",
                     "......................    ",
                 ],
 
                 // way harder lvls
                 [
-                    "@                       >",
+                    "        $       $        ",
+                    "@  }         }          >",
                     "``      ^       ^        ",
                 ],
                 [
                     "`````````````````````",
-                    "`@                  >",
+                    "`@     }    }       >",
                     "```  `  `  `  `  `  `",
                 ],
                 [
                     "`````````````````````",
-                    "`@                  >",
+                    "`@      }     }     >",
                     "```  ^  ^  ^  ^  ^  `",
                 ],
                 [
                     "                   `",
                     "                   `",
-                    "                   `",
+                    "       $     $     `",
                     "@                  >",
                     "``  ^  ^  ^  ^  ^  `",
                 ],
                 [
-                    "              `    `",
+                    "           }",
+                    "   }          `    `",
                     "@      `           >",
                     "^^                 ^",
                 ],
                 [
-                    "                  `",
-                    "@                 >",
-                    "`  ^  ^  ^  ^  ^  `",
+                    "       $     $     `",
+                    "@         ^        >",
+                    "``  ^  ^     ^  ^  `",
                 ],
                 [
                     "       ^         ^         ",
@@ -113,27 +120,27 @@
                     " =>=",
                 ],
                 [
-                    "@            >",
+                    "@    }       >",
                     "=========    =",
                 ],
                 [
                     "@       >",
-                    "=   =   =",
+                    "==  =   =",
                 ],
                 [
-                    "=               ",
-                    "=               ",
-                    "=@             >",
-                    "==      ^      =",
+                    "=                ",
+                    "=   }    $       ",
+                    "=@              >",
+                    "===      ^      =",
                 ],
                 [
-                    "=========",
-                    "@      >=",
-                    "=========",
+                    "==============",
+                    "=@     }    >=",
+                    "=======^======",
                 ],
 
                 [
-                    "@                      >",
+                    "@      }        }      >",
                     "========================",
                 ],
                 [
@@ -142,7 +149,7 @@
                     "========================",
                 ],
                 [
-                    "@                    ^ >",
+                    "@     }              ^ >",
                     "========================",
                 ],
                 [
@@ -150,8 +157,10 @@
                     "========================",
                 ],
                 [
-                    ">       @",
-                    "=========",
+                    ">  }    @  ",
+                    "========= ^",
+                    "        ^ ^",
+                    "        ^^^",
                 ],
                 [
                     "              >",
@@ -180,26 +189,9 @@
             scene("game", ({ levelIdx, score, showInstructions}) => {
 
                 let instructionLabel
-                if (showInstructions) {
-                    instructionLabel = add([
-                        text("A/D to strafe\nW to jump\navoid cats\nget the chez\nred grass lvls are harder lvls", {
-                            size: 12,
-                            lineSpacing: 6,
-                        }),
-                        pos(0, 0),
-                        anchor("botleft"),
-                        z(100),
-                        "instructions",
-                    ])
-                    onKeyPress(["a", "d", "w"], () => {
-                        destroy(instructionLabel)
-                    })
-                    instructionLabel.onUpdate(() => {
-                        instructionLabel.pos = player.pos.add(50, 100)
-                    })
-                }
 
-                camScale(2);
+
+                camScale(1.5);
 
                 let lives = 2
                 let hitCooldown = false
@@ -234,6 +226,19 @@
                         body({ isStatic: true }),
                         anchor("bot"),
                         "roc",
+                    ],
+                    "}": () => [
+                        sprite("arrow"),
+                        scale(1),
+                        anchor("center"),
+                        "rArrow",
+                    ],
+                    "$": () => [
+                        sprite("arrow"),
+                        scale(1),
+                        anchor("center"),
+                        rotate(90),
+                        "rArrow",
                     ],
                     "=": () => [
                         sprite("grass"),
@@ -291,7 +296,7 @@
                     if (!hitCooldown) {
                         if (lives > 1) {
                             lives -= 1
-                            player.use(sprite("sadRat"))
+                            player.use(sprite("iRat"))
                             hitCooldown = true
                             wait(2, () => {
                                 hitCooldown = false
@@ -309,7 +314,7 @@
                 })
 
                 player.onCollide("portal", () => {
-                    let hard = Math.random()*100
+                    let hard = Math.random()*80
                     if(hardLvls = false){
                         score += 1;
                     } else{
@@ -319,37 +324,114 @@
 
                     if (hard < 75) {
                         hardLvls = false
-                        const randLvlId = Math.floor(Math.random()*(levels.length-7)+7)
+                        const randLvlId = Math.floor(Math.random()*(levels.length-8)+8)
                         go("game", { levelIdx: randLvlId, score: score })
                     } else {
                         console.log("hard lvl")
                         hardLvls = true
-                        const randLvlId = Math.floor(Math.random()*7)
+                        const randLvlId = Math.floor(Math.random()*8)
                         go("game", { levelIdx: randLvlId, score: score })
                     }
 
                 });
 
-                onKeyDown("a", () => {
-                    player.move(-speed, 0)
-                    if (lives < 2) {
-                        player.use(sprite("sadRat2"))
-                    } else{
-                        player.use(sprite("rat2"))
-                    }
 
+                onKeyDown("a", () => {
+                    if(!isKeyDown("left")){
+                        player.move(-speed, 0)
+                        if (lives < 2) {
+                            if(hitCooldown === true){
+                                player.use(sprite("iRat2"))
+                            } else{
+                                player.use(sprite("sadRat2"))
+                            }
+                        } else{
+                            player.use(sprite("rat2"))
+                        }
+                    }
                 })
 
+
+
+                onKeyDown("left", () => {
+                    if(!isKeyDown("a")){
+                        player.move(-speed, 0)
+                        if (lives < 2) {
+                            if(hitCooldown === true){
+                                player.use(sprite("iRat2"))
+                            } else{
+                                player.use(sprite("sadRat2"))
+                            }
+                        } else{
+                            player.use(sprite("rat2"))
+                        }
+                    } else{
+                        player.move(-speed, 0)
+                        if (lives < 2) {
+                            player.use(sprite("sadRat2"))
+                        } else{
+                            player.use(sprite("rat2"))
+                        }
+                    }
+                })
+
+
                 onKeyDown("d", () => {
+                    if(!isKeyDown("right")){
+                        player.move(speed, 0)
+                        if (lives < 2) {
+                            if(hitCooldown === true){
+                                player.use(sprite("iRat"))
+                            } else{
+                                player.use(sprite("sadRat"))
+                            }
+                        } else{
+                            player.use(sprite("rat"))
+                        }
+                    }
+                })
+
+                onKeyDown("right", () => {
+                    if(!isKeyDown("d")){
+                        player.move(speed, 0)
+                        if (lives < 2) {
+                            if(hitCooldown === true){
+                                player.use(sprite("iRat"))
+                            } else{
+                                player.use(sprite("sadRat"))
+                            }
+                        } else{
+                            player.use(sprite("rat"))
+                        }
+                    } else{
+                        player.move(speed, 0)
+                        if (lives < 2) {
+                            if(hitCooldown === true){
+                                player.use(sprite("iRat"))
+                            } else{
+                                player.use(sprite("sadRat"))
+                            }
+                        } else{
+                            player.use(sprite("rat"))
+                        }
+                    }
+                })
+
+                onKeyRelease("right", () => {
                     player.move(speed, 0)
                     if (lives < 2) {
-                        player.use(sprite("sadRat"))
+                        if(hitCooldown === true){
+                                player.use(sprite("iRat"))
+                            } else{
+                                player.use(sprite("sadRat"))
+                            }
                     } else{
                         player.use(sprite("rat"))
                     }
                 })
 
                 onKeyDown("w", jump)
+                onKeyDown("up", jump)
                 onKeyDown("space", jump)
 
                 // onKeyDown("down", () => {
@@ -358,12 +440,27 @@
 
                 player.onUpdate(() => {
                     camPos(player.worldPos())
-
-
                     if (player.pos.y >= 480) {
                         go("lose", { score: score })
                     }
                 })
+                if (showInstructions) {
+                    instructionLabel = add([
+                        text("Use the arrow keys or wasd to move\nW/Space/Up key to jump\nYou can be hit by cats once\nYou get Iframes after getting hit\nGet the chez\nRed grass lvls are harder lvls", {
+                            size: 12,
+                            lineSpacing: 6,
+                        }),
+                        pos(-1000, 0),
+                        z(0),
+                        "instructions",
+                    ])
+                    // onKeyPress(["a", "d", "w"], () => {
+                    //     destroy(instructionLabel)
+                    // })
+                    instructionLabel.onUpdate(() => {
+                        instructionLabel.pos = player.pos.add(0,0)
+                    })
+                }
             })
 
 
@@ -389,6 +486,7 @@
                     }),
                     pos(center()),
                     anchor("center"),
+                    // color(200,120,208),
                     z(100), // Make sure it’s on top
                     "instructions"
                 ])
