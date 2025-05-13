@@ -1,16 +1,27 @@
 # Presentation Plan
 
 ## Hook
-* 
+* "Who here likes rats? No one? Well too bad."
 
 ## Product
-* 
+* Demo of the game
+* Yellkey of the game
 
 ## Process
-* 
+* Show plan
+ * MVP: Making the randomised levels
+ * Beyond MVP: Adding arrow key movement w/ wasd movement, Adding directions to the game
+* Code Snippets:
+ * Picking random levels
+ * How I allowed both wasd and arrow keys to be pressed at the same time
+ * How I made iframes when getting hit
 
 ## Conclusion
-* 
+* The yellkey link again
+* Takeaways
+ * Manage your time well: I left everything to be done a week before the MVP due date and wasn't able to add everything I wanted to add: I wanted to add an AI that follows the player but ran out of time to add it to the MVP and Beyond MVP.
+ * Let others test your code: When testing my code, I forgotten that only I understood what my code did while others would be confused on the games goal. This would lead to me adding instructions to the game.
+* "Crazy? I was crazy once. They locked me in a room. A rubber room. A rubber room with rats. And rats make me crazy." (Ellen is forcing me to put this.)
 
 <!-- EXAMPLE
 
